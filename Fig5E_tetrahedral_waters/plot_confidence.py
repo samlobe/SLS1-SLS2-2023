@@ -10,6 +10,7 @@ b_tetrahedral_frac = 0.23202 # for 300K from 3body.py
 
 confidence = []
 for label in data_labels:
+    # convert relative tetrahedrality back to % tetrahedral waters
     confidence.append(pd.read_csv(f'res{label}_confidence.csv',index_col=0)*b_tetrahedral_frac*100)
         
 for df in confidence:

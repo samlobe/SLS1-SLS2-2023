@@ -18,7 +18,7 @@ def read_angles(filepath):
                 angles.append([float(x) for x in line.split()])
     return angles
 
-ensembles = ['SLS1','SLS2']
+ensembles = ['jR2R3','jR2R3_P301L']
 seq = 'DNIKHVPGGGSVQIVYKPV'
 res_names = [f'{res}{i+295}' for i,res in enumerate(list(seq))]
 res_names[6] = 'aa301'
