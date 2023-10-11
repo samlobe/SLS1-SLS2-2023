@@ -15,7 +15,6 @@ for label in data_labels:
 for df in confidence:
     df.insert(3,'error_down',df['50%']-df['5%'])
     df.insert(4,'error_up',df['95%']-df['50%'])
-# df = df.drop(['hp1_NaCl','hp2_NaCl'])
 
 #%%
 fig,ax = plt.subplots(figsize=(4,4))
@@ -28,7 +27,7 @@ for i,row in enumerate(br):
 
 for i,df in enumerate(confidence):
     plt.bar(br[i],df['50%'],yerr=df.iloc[:,-2:].T.to_numpy(),
-            color=colors,width=barWidth,align='edge',label=['SLS1','SLS2'])
+            color=colors,width=barWidth,align='edge',label=['jR2R3','jR2R3_P301L'])
 
 plt.xlim(left=0.6,right=1.3)
 plt.ylim(bottom=23,top=24)
@@ -45,8 +44,8 @@ plt.ylabel('% tetrahedral waters',fontsize=15)
 
 import matplotlib.patches as mpatches
 
-label1 = 'SLS1'
-label2 = 'SLS2'
+label1 = 'jR2R3'
+label2 = 'jR2R3 P301L'
 
 # create patch objects for the custom colors and labels
 patch1 = mpatches.Patch(color=colors[0], label=label1)
@@ -55,11 +54,7 @@ patch2 = mpatches.Patch(color=colors[1], label=label2)
 # create the legend
 # plt.legend(handles=[patch1, patch2],fontsize=15,loc='upper left')
 
-plt.xticks([0.8,1.1],['SLS1','SLS2'],fontsize=15)
-
-# label = ['SLS1','_nolegend_','_nolegend_','_nolegend_','_nolegend_','_nolegend',
-#          'SLS2','_nolegend_','_nolegend_','_nolegned_']
-# plt.legend(fontsize=15)
+plt.xticks([0.8,1.1],[label1,label2],fontsize=15)
 
 # plot a horizontal dashed line at b_tetrahedral_frac*100
 plt.axhline(y=b_tetrahedral_frac*100,linestyle='--',color='black')
