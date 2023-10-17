@@ -1,0 +1,10 @@
+These are animations of PCs of backbone motions from the REMD trajectory.
+The main purpose is for the viewer to see the energy landscape in an intuitive way and to see that some motions to break these two H-bonds are unfavorable in jR2R3 (i.e. the WT). 
+
+To create the unclamp mode gif I filtered the trajectory (lower, pinched region of landscape) and took variations unclamp_cluster1.pdb (from Daura algorithm clustering of unclamp.xtc) to get principal components. I visualize PC1. PC bounds: -10 to 10 
+To create the unpinch mode gif I filtered the trajectory (left, clamped region of landscape) and took variations around  cluster_zone1.pdb (from Daura algorithm clustering of zone 1, i.e. the pinched and clamped part of jR2R3_P301L's trajectory) to get principal components. I visualize PC7. PC bounds: -9 to 4.
+
+Procedure:
+1) `python unpinch_PCA.py` and `python unclamp_PCA.py` to make the energy landscape gif and the pdb files of the pc variations.
+2) Make a gif of the protein motion using Pymol. I split the pdb of the pc variations into 3 to show when the H-bond was breaking/forming (according to ChimeraX's hbond algorithm), and then I combined those 3 gifs and put them into the 'just_protein_gifs' directory.
+3) `python combine_gifs_unpinch.py` and `python combine_gifs_unclamp.py` to combine the energy landscape gifs and the protein motion gifs. 
