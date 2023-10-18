@@ -38,13 +38,13 @@ def load(csv_file,ignore,sim_sampling,my_sampling):
                      or (x%entries_to_skip and x>ignore_index))
     return df
 
-titles = ['jR2R3','jR2R3 P301L']
-molecules = ['jR2R3','jR2R3_P301L']
+titles = ['jR2R3','jR2R3_P301S','jR2R3_P301V','jR2R3 P301L']
+molecules = ['jR2R3','jR2R3_P301S','jR2R3_P301V','jR2R3_P301L']
 distances = ['Distance: LYS298 and GLN307','Distance: VAL300 and SER305']
 dist_labels = ['Distance: K298 - Q307 (nm)','Distance: V300 - S305 (nm)']
 dist_dir = '../pair_distances'
 
-fig,axs = plt.subplots(1,2)
+fig,axs = plt.subplots(1,4)
 fig.set_figheight(3.5)
 fig.set_figwidth(8)
 cax = plt.axes([0.87, 0.18, 0.03, 0.708])
@@ -80,32 +80,23 @@ cb.ax.set_ylabel('kJ/mol',fontsize=13)
 
 fig.tight_layout(rect=[0,0,.87,1])
 
-# Draw a white two-way arrow from (0.5,0.35) to (1.4,0.35) and write "unclamp" underneath it
-axs[0].annotate('',
+# add arrows
+for ax in axs:
+    # Draw a white two-way arrow from (0.5,0.35) to (1.4,0.35) and write "unclamp" underneath it
+    ax.annotate('',
             xy=(1.4, 0.37),  xycoords='data',
             xytext=(0.5, 0.37), textcoords='data',
             arrowprops=dict(facecolor='white', edgecolor='white', arrowstyle='->', lw=2))
-axs[0].text(0.95, 0.275, 'unclamp', fontsize=10, ha='center', color='white')
-axs[1].annotate('',
-            xy=(1.4, 0.37),  xycoords='data',
-            xytext=(0.5, 0.37), textcoords='data',
-            arrowprops=dict(facecolor='white', edgecolor='white', arrowstyle='->', lw=2))
-axs[1].text(0.95, 0.275, 'unclamp', fontsize=10, ha='center', color='white')
-
-# Draw a white vertical arrow from (0.35,0.6) to (0.35,1.3) and write "unpinch" to the left of it (rotated parallel to the arrow)
-axs[0].annotate('',
+    ax.text(0.95, 0.275, 'unclamp', fontsize=10, ha='center', color='white')
+    # Draw a white vertical arrow from (0.35,0.6) to (0.35,1.3) and write "unpinch" to the left of it (rotated parallel to the arrow)
+    ax.annotate('',
             xy=(0.35, 1.3),  xycoords='data',
             xytext=(0.35, 0.51), textcoords='data',
             arrowprops=dict(facecolor='white', edgecolor='white', arrowstyle='->', lw=2))
-axs[0].text(0.24, 0.9, 'unpinch', fontsize=10, va='center', ha='center', color='white', rotation='vertical')
-axs[1].annotate('',
-            xy=(0.35, 1.3),  xycoords='data',
-            xytext=(0.35, 0.51), textcoords='data',
-            arrowprops=dict(facecolor='white', edgecolor='white', arrowstyle='->', lw=2))
-axs[1].text(0.24, 0.9, 'unpinch', fontsize=10, va='center', ha='center', color='white', rotation='vertical')
+    ax.text(0.24, 0.9, 'unpinch', fontsize=10, va='center', ha='center', color='white', rotation='vertical')
 
 # save figure
-fig.savefig('four_energy_landscapes_2D.png',dpi=300,bbox_inches='tight')
+fig.savefig('mutant_energy_landscapes_2D.png',dpi=300,bbox_inches='tight')
 
 plt.show()
 

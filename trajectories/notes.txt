@@ -1,3 +1,3 @@
 All trajectories are excluding the explicit water (to keep file sizes low).
-For the dimer trajectories, I outputted monomer A is in the center (in the full simulation monomer A was freely floating).
 All trajectories are just for the 300K temperature. Other REMD temp simulations were not uploaded to github due to file size constraints.
+Dimer trajectories are in my other github repo, which is currently (10/18/23) titled 'tau-seeding-2023'.

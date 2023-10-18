@@ -1,2 +1,2 @@
-# tau-SLS1-SLS2-2023
-Computational support for Vigers, et. al. 2023 paper on SLS1 and SLS2 tau fragment.
+# tau-jR2R3-P301L-2023
+Computational support for Vigers, et. al. 2023 paper on the tau fragment jR2R3 and the P301L mutation.
