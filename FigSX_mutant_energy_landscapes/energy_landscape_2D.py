@@ -2,14 +2,21 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
+import mdtraj as md
 from scipy.interpolate import interp2d
 
-def free_energy(a, b, T, y0, ymax, x0, xmax):
+dist_dir = '../pair_distances'
+molecule = 'jR2R3' # HIE protonation state
+# molecule = 'jR2R3_P301L'
+title = 'jR2R3'
+# title = 'jR2R3 P301L'
+
+def free_energy(a, b, T, y0, ymax, x0, xmax, weights=None):
     free_energy, xedges, yedges = np.histogram2d(
-        a, b, 30, [[y0, ymax], [x0, xmax]], density=True, weights=None)
+        a, b, 30, [[y0, ymax], [x0, xmax]], density=True, weights=weights)
     free_energy = np.log(np.flipud(free_energy)+.000001)
     free_energy = -(0.008314*T)*free_energy # for kJ/mol
+    # use 0.008314 for kJ/mol
     return free_energy, xedges, yedges
 
 def load(csv_file,ignore,sim_sampling,my_sampling):
@@ -38,67 +45,54 @@ def load(csv_file,ignore,sim_sampling,my_sampling):
                      or (x%entries_to_skip and x>ignore_index))
     return df
 
-titles = ['jR2R3','jR2R3_P301S','jR2R3_P301V','jR2R3 P301L']
-molecules = ['jR2R3','jR2R3_P301S','jR2R3_P301V','jR2R3_P301L']
-distances = ['Distance: LYS298 and GLN307','Distance: VAL300 and SER305']
-dist_labels = ['Distance: K298 - Q307 (nm)','Distance: V300 - S305 (nm)']
-dist_dir = '../pair_distances'
+df = load(f'{dist_dir}/pair_distances_{molecule}.csv',50,10,10) # converged by 50ns
 
-fig,axs = plt.subplots(1,4)
-fig.set_figheight(3.5)
-fig.set_figwidth(8)
-cax = plt.axes([0.87, 0.18, 0.03, 0.708])
+distx = 'Distance: LYS298 and GLN307'
+disty = 'Distance: VAL300 and SER305'
 
-for i,molecule in enumerate(molecules):
-    df = load(f'{dist_dir}/pair_distances_{molecule}.csv',50,10,10) #assuming it's converged at 50ns
-    distx = distances[0]
-    disty = distances[1]
-    x = df[distx].to_numpy()
-    y = df[disty].to_numpy()
+x = df[distx].to_numpy()
+y = df[disty].to_numpy()
 
-    # CREATE A HEAT MAP OF THE FREE ENERGY OF THE CURRENT SIMULATION
-    dG, xedges, yedges = free_energy(y, x, 300, 0.25, 1.9, 0.15, 3.1)
-    dG = dG - np.min(dG)
-    im = axs.flat[i].imshow(dG, interpolation='gaussian', extent=[
-                yedges[0], yedges[-1], xedges[0], xedges[-1]], cmap='jet',
-                aspect='auto',vmax=14)
+fig,ax = plt.subplots()
 
-    axs[i].set_title(titles[i],fontsize=15)
-    axs[i].set_ylabel(r'Distance: $\bf{V300}$ – $\bf{S305}$ (nm)',fontsize=14)
-    axs[i].set_xlabel(r'Distance: $\bf{K298}$ – $\bf{Q307}$ (nm)',fontsize=14)
-
-# FORMAT LABELS AND LAYOUT
-for ax in axs.flat:
-    ax.label_outer()
-#fig.suptitle(res,fontsize=20)
+# CREATE A HEAT MAP OF THE FREE ENERGY OF THE CURRENT SIMULATION
+dG, xedges, yedges = free_energy(y, x, 300, 0.25, 1.9, 0.15, 3.1)
+dG = dG - np.min(dG)
+im = plt.imshow(dG, interpolation='gaussian', extent=[
+            yedges[0], yedges[-1], xedges[0], xedges[-1]], cmap='jet',
+            aspect='auto',vmax=12)
 
 # FORMAT THE COLORBAR
-cbar_ticks = np.arange(0,16,2)
-cb = fig.colorbar(im, cax=cax, ax=axs,ticks=cbar_ticks, format=('% .0f'),shrink=1)
-cb.ax.get_yaxis().labelpad = 4
-cb.ax.set_ylabel('kJ/mol',fontsize=13)
+cbar_ticks = np.arange(0,15,2)
+cb = fig.colorbar(im)
+cb.ax.get_yaxis().labelpad = 12
+cb.ax.set_ylabel('kJ/mol',rotation=90,fontsize=13)
 
-fig.tight_layout(rect=[0,0,.87,1])
-
-# add arrows
-for ax in axs:
-    # Draw a white two-way arrow from (0.5,0.35) to (1.4,0.35) and write "unclamp" underneath it
-    ax.annotate('',
+# Draw a white two-way arrow from (0.5,0.35) to (1.4,0.35) and write "unclamp" underneath it
+ax.annotate('',
             xy=(1.4, 0.37),  xycoords='data',
             xytext=(0.5, 0.37), textcoords='data',
             arrowprops=dict(facecolor='white', edgecolor='white', arrowstyle='->', lw=2))
-    ax.text(0.95, 0.275, 'unclamp', fontsize=10, ha='center', color='white')
-    # Draw a white vertical arrow from (0.35,0.6) to (0.35,1.3) and write "unpinch" to the left of it (rotated parallel to the arrow)
-    ax.annotate('',
+ax.text(0.95, 0.275, 'unclamp', fontsize=14, ha='center', color='white')
+
+# Draw a white vertical arrow from (0.35,0.6) to (0.35,1.3) and write "unpinch" to the left of it (rotated parallel to the arrow)
+ax.annotate('',
             xy=(0.35, 1.3),  xycoords='data',
             xytext=(0.35, 0.51), textcoords='data',
             arrowprops=dict(facecolor='white', edgecolor='white', arrowstyle='->', lw=2))
-    ax.text(0.24, 0.9, 'unpinch', fontsize=10, va='center', ha='center', color='white', rotation='vertical')
+ax.text(0.24, 0.9, 'unpinch', fontsize=14, va='center', ha='center', color='white', rotation='vertical')
 
-# save figure
-fig.savefig('mutant_energy_landscapes_2D.png',dpi=300,bbox_inches='tight')
+ax.set_title(title,fontsize=20)
+ax.set_xlabel('Distance: K298 - Q307 (nm)',fontsize=14)
+ax.set_ylabel('Distance: V300 - S305 (nm)',fontsize=14)
+
+ax.set_title(title,fontsize=20)
+ax.set_xlabel('Distance: K298 - Q307 (nm)',fontsize=14)
+ax.set_ylabel('Distance: V300 - S305 (nm)',fontsize=14)
+
+plt.tight_layout()
+fig.savefig('P301_energy_landscape_2D.png',dpi=300,bbox_inches='tight')
+# fig.savefig('P301L_energy_landscap_2D.png',dpi=300,bbox_inches='tight')
 
 plt.show()
 
-
-# %%

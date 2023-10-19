@@ -1,0 +1,5 @@
+For each peptide, I did REMD simulations of the HID and HIE protonation states for H299.
+I show the energy landscape (or combination of landscapes - Bolzmann weighted) that has the most favorable unfolding pathways.
+For P301 and P301L, the HIE protonation state was most favorable.
+For P301V, the HID protonation state was most favorable.
+For P301S, the combination of HID and HIE protonation states were most favorable. (I weighted each ensemble equally.)
