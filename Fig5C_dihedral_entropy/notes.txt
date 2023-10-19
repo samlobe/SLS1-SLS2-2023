@@ -1,0 +1,2 @@
+This is a way to quantify each residue's backbone stiffness.
+Acknowledgment to Bill Fitzgerald for working on a prior version of this script with me.
