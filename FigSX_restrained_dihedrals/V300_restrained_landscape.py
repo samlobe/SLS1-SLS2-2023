@@ -3,9 +3,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# make a mask that counts frames when V300 and V301 dihedrals resemble HP1's
+# make a mask that counts frames when V300 (and L301) dihedrals resemble HP1's
 columns = ['Angle phi: VAL300','Angle psi: VAL300','Angle phi: aa301','Angle psi: aa301']
-df_dihedrals = pd.read_csv('dihedrals_jR2R3_P301L.csv')[columns]
+dihedral_dir = '../dihedrals'
+df_dihedrals = pd.read_csv(f'{dihedral_dir}/dihedrals_jR2R3_P301L.csv')[columns]
 
 # make a mask for phi VAL300 < 0 and psi VAL300 > 1
 V300_mask = np.logical_and(df_dihedrals['Angle phi: VAL300'].values < 0, df_dihedrals['Angle psi: VAL300'].values > 1.5)[5000:]

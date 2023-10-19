@@ -40,8 +40,9 @@ def load(csv_file,ignore,sim_sampling,my_sampling):
     return df
 
 ### LOAD ALL THE SIMULATION DATA
-df1 = load('dihedrals_jR2R3.csv',50,10,10)
-df2 = load('dihedrals_jR2R3_P301L.csv',50,10,10)
+dihedral_dir = '../dihedrals'
+df1 = load(f'{dihedral_dir}/dihedrals_jR2R3.csv',50,10,10)
+df2 = load(f'{dihedral_dir}/dihedrals_jR2R3_P301L.csv',50,10,10)
 simulation_data = [df1, df2]
 simulations = ['jR2R3','jR2R3 P301L']
 
@@ -72,9 +73,9 @@ for j,df in enumerate(simulation_data):
                     yedges[0], yedges[-1], xedges[0], xedges[-1]], cmap='jet',
                     aspect='auto',vmax=20)
     axs.flat[j].set_aspect('equal')
-    axs.flat[j].set_title(f'{simulations[j]}',fontsize=16)
-    axs.flat[j].set_xlabel('$\Phi$',fontsize=14)
-    axs.flat[j].set_ylabel('$\Psi$',fontsize=14)
+    axs.flat[j].set_title(f'{simulations[j]}',fontsize=24)
+    axs.flat[j].set_xlabel('$\Phi$',fontsize=24)
+    axs.flat[j].set_ylabel('$\Psi$',fontsize=24)
 
     # set xticks and yticks from -3 to 3
     axs.flat[j].set_xticks(np.arange(-3,3.5,1))
@@ -94,10 +95,11 @@ for ax in axs.flat:
 cbar_ticks = np.arange(0,25,5)
 cb = fig.colorbar(im, cax=cax, ax=axs,ticks=cbar_ticks, format=('% .0f'), shrink=0.5)
 cb.ax.get_yaxis().labelpad = 12
-cb.ax.set_ylabel('kJ/mol',rotation=90,fontsize=14)
+cb.ax.set_ylabel('kJ/mol',rotation=90,fontsize=20)
+cb.ax.tick_params(labelsize=14)
 
 # add suptile
-fig.suptitle(f'V300 dihedrals',fontsize=16)
+fig.suptitle(f'V300 dihedrals',fontsize=28)
 
 plt.savefig('Ramachandran_V300.png',bbox_inches='tight')
 

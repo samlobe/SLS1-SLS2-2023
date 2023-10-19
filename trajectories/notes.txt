@@ -1,3 +1,4 @@
 All trajectories are excluding the explicit water (to keep file sizes low).
 All trajectories are just for the 300K temperature. Other REMD temp simulations were not uploaded to github due to file size constraints.
 Dimer trajectories are in my other github repo, which is currently (10/18/23) titled 'tau-seeding-2023'.
+I don't have enough space remaining with git lfs so I can't put all of the monomer trajectories unfortunately (e.g. P301S, P301V, and all the H299 HID protonation states).
