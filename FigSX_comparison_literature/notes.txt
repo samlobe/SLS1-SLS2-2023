@@ -1,0 +1,2 @@
+FigA-B compare our results to Chen et. al. 2019 (see their Fig 3C) where they see large differences between P301L and WT while we don't.
+FigC-D compare our results to Stelzl et. al. 2022 (see their Fig 4A,C) where they see large differences between P301L and WT while we don't.
