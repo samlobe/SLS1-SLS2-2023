@@ -56,8 +56,9 @@ for i in np.arange(1,21):
     if i < 10: i = f'0{i}'
     MTbound.append(mda.Universe(f'tau_MT-bound_pdbs/tau_MT-bound_{i}.pdb')) # from PDB 2MZ7
 
-u1 = mda.Universe('jR2R3.gro','jR2R3.xtc')
-u2 = mda.Universe('jR2R3_P301L.gro','jR2R3_P301L.xtc')
+traj_dir = '../../trajectories' # two directories up
+u1 = mda.Universe(f'{traj_dir}/jR2R3.gro',f'{traj_dir}/jR2R3.xtc')
+u2 = mda.Universe(f'{traj_dir}/jR2R3_P301L.gro',f'{traj_dir}/jR2R3_P301L.xtc')
 
 #%% skip this cell if RMSD arrays are already calculated in csv file
 

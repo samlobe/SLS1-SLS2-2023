@@ -78,7 +78,7 @@ hbond_confidence_jR2R3_P301L = pd.DataFrame(np.reshape(hbond_frac_confidence,(1,
 
 
 #%% NOW jR2R3  AGAIN BUT FILTERING FOR AT LEAST ONE MONOMER
-# IN THE LOWER LEFT OF THE ENERGY LANDSCAPE (r299-308 < 0.7A); (r300-305 < 0.8A)
+# IN THE LOWER LEFT OF THE ENERGY LANDSCAPE (r298-307 < 0.7A); (r300-305 < 0.8A)
 bootstrap_num = 500
 data_bootstrapped = np.zeros(bootstrap_num)
 bins = [0,4,np.inf]
@@ -111,7 +111,7 @@ hbond_confidence_jR2R3_left = pd.DataFrame(np.reshape(hbond_frac_confidence,(1,3
                                 columns=[f'{int(50-(confidence*100/2))}%','50%',f'{int(50+(confidence*100/2))}%'])
 
 #%% NOW jR2R3_P301L  AGAIN BUT FILTERING FOR AT LEAST ONE MONOMER
-# IN THE LOWER LEFT OF THE ENERGY LANDSCAPE (r299-308 < 0.7A); (r300-305 < 0.8A)
+# IN THE LOWER LEFT OF THE ENERGY LANDSCAPE (r298-307 < 0.7A); (r300-305 < 0.8A)
 bootstrap_num = 500
 data_bootstrapped = np.zeros(bootstrap_num)
 bins = [0,4,np.inf]

@@ -5,8 +5,9 @@ import MDAnalysis as mda
 from MDAnalysis.analysis import distances
 from tqdm import tqdm
 
-u1 = mda.Universe('jR2R3.gro','jR2R3.xtc')
-u2 = mda.Universe('jR2R3_P301L.gro','jR2R3_P301L.xtc')
+traj_dir = '../../trajectories'
+u1 = mda.Universe(f'{traj_dir}/jR2R3.gro',f'{traj_dir}/jR2R3.xtc')
+u2 = mda.Universe(f'{traj_dir}/jR2R3_P301L.gro',f'{traj_dir}/jR2R3_P301L.xtc')
 
 def get_dist(u):
     atom1 = u.select_atoms(f'resid {300-294} and name O')
@@ -14,7 +15,6 @@ def get_dist(u):
     print(list(atom1.resnames))
     print(list(atom2.resnames))
 
-    
     conv = 50000 ; timestep = u.trajectory[1].time #ps
     frame1 = int(conv/timestep)
     

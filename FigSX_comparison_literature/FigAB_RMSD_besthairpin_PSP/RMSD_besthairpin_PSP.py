@@ -52,10 +52,11 @@ def histo_line(data):
     bin_middle = bin_middle + bin_edges[:len(bin_middle)]
     return bin_middle, histo_height
 
+traj_dir = '../../trajectories' # two directories above
 ref1 = mda.Universe('best_hairpin.pdb')
 ref2 = mda.Universe('PSP.gro')
-u1 = mda.Universe('jR2R3.gro','jR2R3.xtc')
-u2 = mda.Universe('jR2R3_P301L.gro','jR2R3_P301L.xtc')
+u1 = mda.Universe(f'{traj_dir}/jR2R3.gro',f'{traj_dir}/jR2R3.xtc')
+u2 = mda.Universe(f'{traj_dir}/jR2R3_P301L.gro',f'{traj_dir}/jR2R3_P301L.xtc')
 
 # measure RMSD in each frame
 jR2R3_RMSD_hairpin = get_RMSD(u1,ref1,'name CA','name CA')
@@ -77,11 +78,11 @@ jR2R3_P301L_RMSD_PSP.to_csv('jR2R3_P301L_RMSD-to-PSP.csv',index=False)
 # jR2R3_P301L_RMSD_PSP = pd.read_csv('jR2R3_P301L_RMSD-to-PSP.csv')
 ###
 
-traj_dir = '.'
-jR2R3_RMSD_hairpin = load(f'{traj_dir}/jR2R3_RMSD-to-hairpin.csv',50,10,10).iloc[:,1].to_numpy()
-jR2R3_P301L_RMSD_hairpin = load(f'{traj_dir}/jR2R3_P301L_RMSD-to-hairpin.csv',50,10,10).iloc[:,1].to_numpy()
-jR2R3_RMSD_PSP = load(f'{traj_dir}/jR2R3_RMSD-to-PSP.csv',50,10,10).iloc[:,1].to_numpy()
-jR2R3_P301L_RMSD_PSP = load(f'{traj_dir}/jR2R3_P301L_RMSD-to-PSP.csv',50,10,10).iloc[:,1].to_numpy()
+#%%
+jR2R3_RMSD_hairpin = load('jR2R3_RMSD-to-hairpin.csv',50,10,10).iloc[:,1].to_numpy()
+jR2R3_P301L_RMSD_hairpin = load('jR2R3_P301L_RMSD-to-hairpin.csv',50,10,10).iloc[:,1].to_numpy()
+jR2R3_RMSD_PSP = load('jR2R3_RMSD-to-PSP.csv',50,10,10).iloc[:,1].to_numpy()
+jR2R3_P301L_RMSD_PSP = load('jR2R3_P301L_RMSD-to-PSP.csv',50,10,10).iloc[:,1].to_numpy()
 
 bin1,hist1 = histo_line(jR2R3_RMSD_hairpin)
 bin2,hist2 = histo_line(jR2R3_P301L_RMSD_hairpin)
